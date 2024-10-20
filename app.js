@@ -3,30 +3,20 @@ const { Command } = require('commander');
 const program = new Command();
 
 program
-    .requiredOption('-h, --host <host>', 'server address')
-    .requiredOption('-p, --port <port>', 'server port')
-    .requiredOption('-c, --cache <path>', 'cache directory path')
-    .helpOption(false)
-    .parse(process.argv);
+    .requiredOption('-h, --host <host>', 'Server address')
+    .requiredOption('-p, --port <port>', 'Server port')
+    .requiredOption('-c, --cache <path>', 'Cache directory path');
+
+program.parse(process.argv);
 
 const options = program.opts();
 
-// Перевірка, що всі обов'язкові параметри задані
-if (!options.host || !options.port || !options.cache) {
-    console.error('Error: All required options must be specified.');
-    process.exit(1);
-}
-
-// Створення HTTP сервера
 const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
-    res.end('Server is running!\n');
+    res.end('Hello, world!\n');
 });
 
-// Запуск сервера
 server.listen(options.port, options.host, () => {
     console.log(`Server running at http://${options.host}:${options.port}/`);
-    console.log(`Cache directory is set to: ${options.cache}`);
-    console.log(`Host: ${options.host}, Port: ${options.port}, Cache: ${options.cache}`);
 });
